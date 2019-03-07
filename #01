@@ -2,21 +2,21 @@ import java.math.*;
 
 class Fib{
 	public static void term (int t) {
-	BigInteger fib0 = new BigInteger ("0") ;
-	BigInteger fib1 = new BigInteger ("1") ;
-	BigInteger fib2 = new BigInteger ("0") ;
-    
-    if (t==0 || t== 1)System.out.println(fib0);
+		BigInteger fib0 = new BigInteger ("0") ;
+		BigInteger fib1 = new BigInteger ("1") ;
+		BigInteger fib2 = new BigInteger ("0") ;
+	    
+	    if (t==0)System.out.println(fib0);
 		else if(t<0)System.out.println("Term isn't Avaible");
-    else if (t==2)System.out.println(fib1);
-		else {
-			for (int i=3 ; i<=t ; i++) {
-				fib2 = fib1.add(fib0);
-				fib0 = fib1 ; 
-				fib1 = fib2;
+	    else if (t==1)System.out.println(fib1);
+			else {
+				for (int i=2 ; i<=t ; i++) {
+					fib2 = fib1.add(fib0);
+					fib0 = fib1 ; 
+					fib1 = fib2;
+				}
+				System.out.println(fib2);
 			}
-			System.out.println(fib2);
-		}
 	}
 }
   
