@@ -1,6 +1,6 @@
 import java.math.*;
 
-public static class Fib{
+class Fib{
 	public static void term (int t) {
 	BigInteger fib0 = new BigInteger ("0") ;
 	BigInteger fib1 = new BigInteger ("1") ;
@@ -29,8 +29,8 @@ public static class Fib{
 
 
 
-public static class MySpecialArrayUtils {
-	public  void reverse(int[] arr) {
+class MySpecialArrayUtils {
+	public static void reverse(int[] arr) {
 		for (int i=0 ; i< (arr.length)/2 ; i++) {
 			int temp = arr[i] ;
 			arr[i] = arr[arr.length -i-1];
@@ -69,8 +69,7 @@ public static class MySpecialArrayUtils {
 		 * to transpose it , else it will never enter this method !
 		 */
 
-
-    /* Assuming That it's A Squared Matrix As The Method will return nothing ~~! */
+	         /* Assuming That it's A Squared Matrix As The Method will return nothing ~~! */
 		for (int i= 0 ; i <arr.length ; i++) {
 			for (int j=i+1 ; j<arr.length ; j++) {
 				if (arr[i][j] != arr[j][i]){
