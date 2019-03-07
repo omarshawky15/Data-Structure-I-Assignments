@@ -1,8 +1,10 @@
+import java.math.*;
+
 public static class Fib{
-	public void term (int t) {
-  	BigInteger fib0 = new BigInteger ("0") ;
-	  BigInteger fib1 = new BigInteger ("1") ;
-	  BigInteger fib2 = new BigInteger ("0") ;
+	public static void term (int t) {
+	BigInteger fib0 = new BigInteger ("0") ;
+	BigInteger fib1 = new BigInteger ("1") ;
+	BigInteger fib2 = new BigInteger ("0") ;
     
     if (t==0 || t== 1)System.out.println(fib0);
 		else if(t<0)System.out.println("Term isn't Avaible");
@@ -16,6 +18,7 @@ public static class Fib{
 			System.out.println(fib2);
 		}
 	}
+}
   
   
   
@@ -26,13 +29,6 @@ public static class Fib{
 
 
 
-interface MySpecialArrayUtils {
-	void reverse(int[] arr);
-	int[] sumEvenOdd(int[] arr);
-	double average(int[] arr);
-	void moveValue(int[] arr, int val);
-	void transpose(int[][] arr);
-}
 public static class MySpecialArrayUtils {
 	public  void reverse(int[] arr) {
 		for (int i=0 ; i< (arr.length)/2 ; i++) {
@@ -41,7 +37,7 @@ public static class MySpecialArrayUtils {
 			 arr[arr.length -i-1] = temp ; 
 		}
 	}
-	public  int[] sumEvenOdd(int[] arr) {
+	public static int[] sumEvenOdd(int[] arr) {
 		 int[] sideArr = {0,0};
 		 if (arr.length == 0)return sideArr ;
 		 for (int i=0 ; i< arr.length ;i++) {
@@ -50,14 +46,14 @@ public static class MySpecialArrayUtils {
 		 }
 		 return sideArr ;
 	}
-	public  double average(int[] arr) {
+	public static double average(int[] arr) {
 		double x = 0 ;
 		for (int i= 0 ; i<arr.length ; i++) {
 			x += (double)arr[i] / arr.length ; 
 		}
 		return x ;
 	}
-	public  void moveValue(int[] arr, int val) {
+	public static void moveValue(int[] arr, int val) {
 		for (int i=0 ; i<arr.length ; i++) {
 			if(arr[i] == val) {
 				for(int j =i+1 ; j < arr.length ; j++) {
@@ -67,7 +63,7 @@ public static class MySpecialArrayUtils {
 			}
 		}
 	}
-	public  void transpose(int[][] arr) {
+	public static void transpose(int[][] arr) {
 		/* if it might be empty i can make a flag in the main that at least one of the entries
 		 * has a non-zero value should make the flag triggered and equal to 1 , so it will go inside the method 
 		 * to transpose it , else it will never enter this method !
