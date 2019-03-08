@@ -53,31 +53,18 @@ class MySpecialArrayUtils {
 		}
 		return x ;
 	}
-	public static void moveValue(int[] arr, int val) {
-		for (int i=0 ; i<arr.length ; i++) {
-			if(arr[i] == val) {
-				for(int j =i+1 ; j < arr.length ; j++) {
-					arr[j-1] = arr[j];
-				}
-				arr[arr.length-1] = val;
-			}
-		}
-	}
-	public static void transpose(int[][] arr) {
+	public static int [][] transpose(int[][] arr) {
 		/* if it might be empty i can make a flag in the main that at least one of the entries
 		 * has a non-zero value should make the flag triggered and equal to 1 , so it will go inside the method 
 		 * to transpose it , else it will never enter this method !
 		 */
-
-	         /* Assuming That it's A Squared Matrix As The Method will return nothing ~~! */
+		if((arr.length == 0) || arr[0].length == 0) {System.out.print("error");  return arr;}
+		int [][] arr2 = new int [arr[0].length][arr.length];
 		for (int i= 0 ; i <arr.length ; i++) {
-			for (int j=i+1 ; j<arr.length ; j++) {
-				if (arr[i][j] != arr[j][i]){
-					int temp = arr[i][j] ;
-					arr[i][j] = arr[j][i] ;
-					arr[j][i] = temp ;
-				}
+			for (int j=0 ; j<arr[i].length ; j++) {
+					arr2[j][i] = arr[i][j] ;
 			}
 		}
+		return arr2;
 	}
 }
