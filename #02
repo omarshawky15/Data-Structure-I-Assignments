@@ -1,9 +1,6 @@
-	public class LinkedListNode{
+public class LinkedListNode{
 		LinkedListNode next =null ; 
 		int data ;
-		public void setNext (LinkedListNode n) {
-			next = n ;
-		}
 		public LinkedListNode getNext () {
 			return next ;
 		}
@@ -11,14 +8,6 @@
 			return data ;
 		}
 	}
-
-
-
-
-
-
-
-
 
 
 
@@ -75,14 +64,14 @@ public class MySpecialLinkedListUtils {
 		while (node3 != null) {
 			node3=node2.getNext();
 			if(node1 == head) {
-				node1.setNext(null);node2.setNext(null);
-			}else node2.setNext(node1);
+				node1.next=null;node2.next=null;
+			}else node2.next=node1;
 			node1=node2;
 			node2=node3;
 		}
 		if(node1 != head) {
 			LinkedListNode node4 = new LinkedListNode();
-			node4.setNext(node1);
+			node4.next=node1;
 			return node4;
 			}
 		else return node1;
@@ -94,7 +83,7 @@ public class MySpecialLinkedListUtils {
 		int counter =0 ;
 		while (node2 != null) {
 			if (counter%2 == 0) {
-				node1.setNext(node2);
+				node1.next=node2;
 				node1=node2;
 				counter++;
 				node2= node2.getNext();
@@ -102,12 +91,13 @@ public class MySpecialLinkedListUtils {
 			counter++;
 			node3 =node2;
 			node2= node2.getNext();
-			node3.setNext(null);
+			node3.next=null;
 			}
-		}node1.setNext(node2);
+		}node1.next=node2;
 		return head ;
 	}
-										/* insertion sort explained*/
+				/* insertion sort explained (this is for me , i'm not responible for any headaches that
+				readers would get :D )*/
 	// node1 : the node before 2 that may contain number bigger than node2 carries .
 	// node2 : the node after 1 that may contain number smaller than node1 carries .
 	// node3 : the node that every time starts from beginning of the list to search for the first node that 
@@ -143,9 +133,9 @@ public class MySpecialLinkedListUtils {
 					node4 = node3;
 					node3= node3.getNext() ;
 				}
-				node1.setNext(node2.getNext());
-				node4.setNext(node2);
-				node2.setNext(node3);
+				node1.next=node2.getNext();
+				node4.next=node2;
+				node2.next=node3;
 				node2 = node1.getNext();
 			}
 			else {
@@ -157,6 +147,13 @@ public class MySpecialLinkedListUtils {
 		return head ;
 	}
 	
+	
+
+
+
+	--->// V.I.NOTE : PLZ INCLUDE COUNT METHOD DURING TESTING MERGE SORT , REMOVECENTRALNODE AND PALINDROME METHODS (EXTRA METHOD) 
+	
+	
 	// Find size of the LinkedList
 	public static int count (LinkedListNode nl ,LinkedListNode nr ) {
 		int counter =1 ;
@@ -167,12 +164,15 @@ public class MySpecialLinkedListUtils {
 		else return 0 ;
 		return counter ; 
 	}
+	
+	
+	
+	// BEGIN OF MERGE SORT 
 	public static void mergeSort(LinkedListNode head) {
 		sort ( head.getNext() , null);
 	}
 	
-	public static void sort( LinkedListNode head, LinkedListNode end) 
-    { 
+	public static void sort( LinkedListNode head, LinkedListNode end){ 
 		int counter = 0 ;
 		LinkedListNode n = head ; 
 		counter = count (head , end); 
@@ -181,15 +181,14 @@ public class MySpecialLinkedListUtils {
 				n= n.getNext();
 			}
 		}
-        if (counter > 1) 
-        {  
-            sort( head , n); 
-            sort( n.getNext(),end); 
-            merge( head, n, end); 
-        } 
-    }
-	public static void merge( LinkedListNode head , LinkedListNode middle , LinkedListNode end ) 
-    { 
+		if (counter > 1) 
+		{  
+		    sort( head , n); 
+		    sort( n.getNext(),end); 
+		    merge( head, n, end); 
+		} 
+  	}
+	public static void merge( LinkedListNode head , LinkedListNode middle , LinkedListNode end ){ 
         // Find sizes of two subarrays to be merged 
         int n1 = count(head,middle);
         int n2 = count(middle.getNext(),end); 
@@ -206,7 +205,6 @@ public class MySpecialLinkedListUtils {
             R[j] = temp2.getValue();
         	temp2= temp2.getNext();
         }
-  
         int i = 0, j = 0; 
         temp1 = head ;
         while (i < n1 && j < n2) 
@@ -233,7 +231,12 @@ public class MySpecialLinkedListUtils {
             j++; temp1= temp1.getNext();
         } 
     }
+    
+	// ENDING OF MERGE SORT 
 	
+	
+	
+	// COUNT METHOD NEEDED 
 	public static LinkedListNode removeCentralNode(LinkedListNode head) {
 		int counter1 = count(head.getNext() , null);
 		int counter2 =0;
@@ -243,10 +246,14 @@ public class MySpecialLinkedListUtils {
 		else counter2 = counter1/2-1 ;
 		for(int i=0 ; i<counter2; i++)temp1=temp1.getNext() ;
 		temp2 = temp1.getNext().getNext() ;
-		temp1.getNext().setNext(null);
-		temp1.setNext(temp2);
+		temp1.getNext().next=null;
+		temp1.next=temp2;
 		return head ;
 	}
+	
+	
+	
+	// COUNT METHOD NEEDED 
 	public static boolean palindrome(LinkedListNode head) {
 		int xor = 0 ,counter = count (head.getNext(),null) , i =1;
 		while (head.getNext() != null) {
@@ -257,32 +264,4 @@ public class MySpecialLinkedListUtils {
 		if(xor == 0)return true ; 
 		else return false ;
 	}
-	public static void main(String [] args) {
-		boolean counter =false;
-		double [] calculations = {0,0,0,0,0} ;
-		LinkedLists list = new LinkedLists ();
-		list.insert(4);
-		list.insert(3);
-		list.insert(1);
-		list.insert(3);
-		list.insert(4);
-		//removeCentralNode (list.header);
-		counter = palindrome(list.header);
-		System.out.println(counter);
-		//list.printList();
-		//mergeSort(list.header);
-		/*counter = count (list.header.getNext() , null);
-		System.out.println(counter);
-		 */
-		/*calculations = summary(list.header);
-		for (int i=0 ; i<calculations.length ; i++) {
-			System.out.println(calculations[i]);
-		}*/
-		//list.header = reverse(list.header);
-		//list.header= evenIndexedElements(list.header);
-		//list.header = insertionSort(list.header);
-		list.printList();
-
-	}
-	
 }
