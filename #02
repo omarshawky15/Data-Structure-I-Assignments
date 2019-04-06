@@ -1,3 +1,6 @@
+			/*V.I.NOTE : all methods assume that the first node which is (head) doesn't contain anything
+			any value would this node contains will be ignored and sometimes deleted*/
+
 public class LinkedListNode{
 		LinkedListNode next =null ; 
 		int data ;
