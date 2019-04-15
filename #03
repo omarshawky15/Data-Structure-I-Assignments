@@ -1,15 +1,15 @@
 package eg.edu.alexu.csd.datastructure.iceHockey;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.lang.* ;
 interface IPlayersFinder {
 	java.awt.Point []  findPlayers(String[] photo, int team, int threshold);
 }
 public class Cs implements IPlayersFinder {
-
 	public java.awt.Point []  findPlayers(String[] photo, int team, int threshold){
+		String[] photoTemp = new String[photo.length] ;
+		photoTemp = photo ;
 		ArrayList<ArrayList<Integer>> pointsarr = new ArrayList<ArrayList<Integer>>() ;
-		//ArrayList<Integer> onepointarr = new ArrayList<Integer>();
 		int counter =0 ;
 		for(int i=0 ; i<photo.length ; i++) {
 			for(int j=0 ; j< photo[i].length() ; j++) {
@@ -18,40 +18,25 @@ public class Cs implements IPlayersFinder {
 					arr1=directions(photo,i,j,team , 1);
 				}
 				if (arr1[0] *4 >= threshold) {
-					/*onepointarr.add(
-							arr1[1]+arr1[3]+1);
-					onepointarr.add(
-							arr1[2]+arr1[4]+1);*/
-					pointsarr.add(
-							new ArrayList<Integer>());
+					pointsarr.add(new ArrayList<Integer>());
 					pointsarr.get(counter).add(arr1[2]+arr1[4]+1);
 					pointsarr.get(counter).add(arr1[1]+arr1[3]+1);
 					counter++;
-					//onepointarr.clear();
 				}
 			}
 		}
-
+		sort(pointsarr);
 		Point []  omar = new Point [pointsarr.size()];
-		/*for(int i=0 ; i<pointsarr.size() ; i++) {
-		for(int j=0 ; j< pointsarr.get(i).size(); j++) {
-		System.out.print(
-				pointsarr.get(i).get(j));
-		}
-		System.out.println() ;
-	}*/
 		for(int i =0 ; i<pointsarr.size(); i++) {
 			omar[i] = new Point() ;
 			omar[i].setLocation(pointsarr.get(i).get(0),pointsarr.get(i).get(1));
 		}
-		/*for(int i=0 ; i<pointsarr.size() ; i++) {
-			for(int j=0 ; j< pointsarr.get(i).size(); j++) {
-			System.out.print(pointsarr.get(i).get(j));
-			}
-			System.out.println() ;
-		}*/
+		//returning photo to its original cuz it's now all full of "x"'s :p 
+		photo = photoTemp ;
 		return omar ; 
 	}
+	
+	//function to - i named it cuz its like arrow keys ->_<- - go in all directions of "int" team as long as it finds one 
 	public int[] directions (String[] photo, int row , int column ,int target,int counter) {
 		int [] arr1 = {counter ,   row , column ,row , column } ;
 		int [] arrtemp = {-1,0,0};
@@ -61,7 +46,9 @@ public class Cs implements IPlayersFinder {
 			return arrtemp ;
 		}
 		arrtemp[0] = counter ;
+		// marking/replacing the visited number with x 
 		photo[row] =photo[row].substring(0,column) + 'x' + photo[row].substring(column+1) ;
+		//down-arrow key
 		arrtemp = directions( photo, row+1 , column,target,counter+1);
 		if (arrtemp[0] != -1 ) {
 			arr1[0] = Math.max(arr1[0], arrtemp[0]);
@@ -72,6 +59,7 @@ public class Cs implements IPlayersFinder {
 			arr1[4] = Math.min(arr1[4], arrtemp[4]);
 			
 		}
+		//up-arrow key
 		arrtemp = directions( photo, row-1 , column,target,counter+1);
 		if (arrtemp[0] != -1 ) {
 			arr1[0] = Math.max(arr1[0], arrtemp[0]);
@@ -82,6 +70,7 @@ public class Cs implements IPlayersFinder {
 			arr1[4] = Math.min(arr1[4], arrtemp[4]);
 			
 		}
+		//right-arrow key
 		arrtemp = directions( photo, row , column+1,target,counter+1);
 		if (arrtemp[0] != -1 ) {
 			arr1[0] = Math.max(arr1[0], arrtemp[0]);
@@ -92,6 +81,7 @@ public class Cs implements IPlayersFinder {
 			arr1[4] = Math.min(arr1[4], arrtemp[4]);
 			
 		}
+		//left-arrow key
 		arrtemp = directions( photo, row , column-1,target,counter+1);
 		if (arrtemp[0] != -1 ) {
 			arr1[0] = Math.max(arr1[0], arrtemp[0]);
@@ -104,6 +94,20 @@ public class Cs implements IPlayersFinder {
 		}
 		return arr1 ;
 	}
-	
+	/*insertion sort on ListedArrays(took only the algorithm , hand edited to handle ListArrays)*/
+	void sort(ArrayList<ArrayList<Integer>> arr){ 
+	        int n = arr.size(); 
+	        for (int i = 1; i < n; ++i) { 
+	            ArrayList<Integer> key = arr.get(i); 
+	            int j = i - 1;
+	            while (j >= 0 && arr.get(j).get(0) >= key.get(0)) {
+	            	if(arr.get(j).get(0) == key.get(0) && arr.get(j).get(1) < key.get(1)) {
+	            		break;
+	            	}
+	                arr.set(j+1, arr.get(j)); 
+	                j = j - 1; 
+	            } 
+	            arr.set(j+1,  key); 
+	        } 
+	}
 }
-
