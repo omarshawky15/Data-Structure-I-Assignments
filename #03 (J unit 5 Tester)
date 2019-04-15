@@ -1,6 +1,4 @@
 package eg.edu.alexu.csd.datastructure.iceHockey;
-
-import eg.edu.alexu.csd.datastructure.iceHockey.IPlayersFinder;
 import org.junit.Assert;
 import org.junit.Test;
 
