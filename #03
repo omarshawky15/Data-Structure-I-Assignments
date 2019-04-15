@@ -9,7 +9,7 @@ public class Cs implements IPlayersFinder {
 	public java.awt.Point []  findPlayers(String[] photo, int team, int threshold){
 		String[] photoTemp = new String[photo.length] ;
 		photoTemp = photo ;
-		ArrayList<ArrayList<Integer>> pointsarr = new ArrayList<ArrayList<Integer>>() ;
+		ArrayList<ArrayList<Integer>> pointsArr = new ArrayList<ArrayList<Integer>>() ;
 		int counter =0 ;
 		for(int i=0 ; i<photo.length ; i++) {
 			for(int j=0 ; j< photo[i].length() ; j++) {
@@ -18,18 +18,19 @@ public class Cs implements IPlayersFinder {
 					arr1=directions(photo,i,j,team ,1);
 				}
 				if (arr1[0] *4 >= threshold) {
-					pointsarr.add(new ArrayList<Integer>());
-					pointsarr.get(counter).add(arr1[2]+arr1[4]+1);
-					pointsarr.get(counter).add(arr1[1]+arr1[3]+1);
+					pointsArr.add(new ArrayList<Integer>());
+					pointsArr.get(counter).add(arr1[2]+arr1[4]+1);
+					pointsArr.get(counter).add(arr1[1]+arr1[3]+1);
 					counter++;
 				}
 			}
 		}
-		sort(pointsarr);
-		Point []  omar = new Point [pointsarr.size()];
-		for(int i =0 ; i<pointsarr.size(); i++) {
+		sort(pointsArr);
+		//any name :\
+		Point []  omar = new Point [pointsArr.size()];
+		for(int i =0 ; i<pointsArr.size(); i++) {
 			omar[i] = new Point() ;
-			omar[i].setLocation(pointsarr.get(i).get(0),pointsarr.get(i).get(1));
+			omar[i].setLocation(pointsArr.get(i).get(0),pointsArr.get(i).get(1));
 		}
 		//returning photo to its original because it's now all full of "x"'s :p 
 		photo = photoTemp ;
