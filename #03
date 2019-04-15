@@ -15,7 +15,7 @@ public class Cs implements IPlayersFinder {
 			for(int j=0 ; j< photo[i].length() ; j++) {
 				int [] arr1 = {0,0,0,0,0} ;
 				if (photo[i].charAt(j) -48  == team) {
-					arr1=directions(photo,i,j,team , 1);
+					arr1=directions(photo,i,j,team ,1);
 				}
 				if (arr1[0] *4 >= threshold) {
 					pointsarr.add(new ArrayList<Integer>());
@@ -31,68 +31,59 @@ public class Cs implements IPlayersFinder {
 			omar[i] = new Point() ;
 			omar[i].setLocation(pointsarr.get(i).get(0),pointsarr.get(i).get(1));
 		}
-		//returning photo to its original cuz it's now all full of "x"'s :p 
+		//returning photo to its original because it's now all full of "x"'s :p 
 		photo = photoTemp ;
 		return omar ; 
 	}
 	
-	//function to - i named it cuz its like arrow keys ->_<- - go in all directions of "int" team as long as it finds one 
+	//function to - i named it because its like arrow keys ->_<- - go in all directions of "int" team as long as it finds one 
 	public int[] directions (String[] photo, int row , int column ,int target,int counter) {
 		int [] arr1 = {counter ,   row , column ,row , column } ;
-		int [] arrtemp = {-1,0,0};
+		int [] arrTemp = {-1,0,0};
 		if(row>=photo.length || column >= photo[0].length() 
 			|| row<0 || column < 0
 			|| (int)photo[row].charAt(column)-48 != target ) {
-			return arrtemp ;
+			return arrTemp ;
 		}
-		arrtemp[0] = counter ;
+		arrTemp[0] = counter ;
 		// marking/replacing the visited number with x 
 		photo[row] =photo[row].substring(0,column) + 'x' + photo[row].substring(column+1) ;
 		//down-arrow key
-		arrtemp = directions( photo, row+1 , column,target,counter+1);
-		if (arrtemp[0] != -1 ) {
-			arr1[0] = Math.max(arr1[0], arrtemp[0]);
+		arrTemp = directions( photo, row+1 , column,target,counter+1);
+		if (arrTemp[0] != -1 ) {
+			minMaxValue(arr1, arrTemp);
 			counter = arr1[0];
-			arr1[1] = Math.max(arr1[1], arrtemp[1]);
-			arr1[2] = Math.max(arr1[2], arrtemp[2]);
-			arr1[3] = Math.min(arr1[3], arrtemp[3]);
-			arr1[4] = Math.min(arr1[4], arrtemp[4]);
-			
 		}
 		//up-arrow key
-		arrtemp = directions( photo, row-1 , column,target,counter+1);
-		if (arrtemp[0] != -1 ) {
-			arr1[0] = Math.max(arr1[0], arrtemp[0]);
+		arrTemp = directions( photo, row-1 , column,target,counter+1);
+		if (arrTemp[0] != -1 ) {
+			minMaxValue(arr1, arrTemp);
 			counter = arr1[0];
-			arr1[1] = Math.max(arr1[1], arrtemp[1]);
-			arr1[2] = Math.max(arr1[2], arrtemp[2]);
-			arr1[3] = Math.min(arr1[3], arrtemp[3]);
-			arr1[4] = Math.min(arr1[4], arrtemp[4]);
-			
 		}
 		//right-arrow key
-		arrtemp = directions( photo, row , column+1,target,counter+1);
-		if (arrtemp[0] != -1 ) {
-			arr1[0] = Math.max(arr1[0], arrtemp[0]);
+		arrTemp = directions( photo, row , column+1,target,counter+1);
+		if (arrTemp[0] != -1 ) {
+			minMaxValue(arr1, arrTemp);
 			counter = arr1[0];
-			arr1[1] = Math.max(arr1[1], arrtemp[1]);
-			arr1[2] = Math.max(arr1[2], arrtemp[2]);
-			arr1[3] = Math.min(arr1[3], arrtemp[3]);
-			arr1[4] = Math.min(arr1[4], arrtemp[4]);
-			
 		}
 		//left-arrow key
-		arrtemp = directions( photo, row , column-1,target,counter+1);
-		if (arrtemp[0] != -1 ) {
-			arr1[0] = Math.max(arr1[0], arrtemp[0]);
-			counter = arr1[0];
-			arr1[1] = Math.max(arr1[1], arrtemp[1]);
-			arr1[2] = Math.max(arr1[2], arrtemp[2]);
-			arr1[3] = Math.min(arr1[3], arrtemp[3]);
-			arr1[4] = Math.min(arr1[4], arrtemp[4]);
-			
+		arrTemp = directions( photo, row , column-1,target,counter+1);
+		if (arrTemp[0] != -1 ) {
+			minMaxValue(arr1, arrTemp);
+			counter = arr1[0];	
 		}
 		return arr1 ;
+	}
+	//Just to minimize the directions method 
+	void minMaxValue(int[] arr1,int[] arrTemp) {
+		if (arrTemp[0] != -1 ) {
+			arr1[0] = Math.max(arr1[0], arrTemp[0]);
+			arr1[1] = Math.max(arr1[1], arrTemp[1]);
+			arr1[2] = Math.max(arr1[2], arrTemp[2]);
+			arr1[3] = Math.min(arr1[3], arrTemp[3]);
+			arr1[4] = Math.min(arr1[4], arrTemp[4]);
+			
+		}
 	}
 	/*insertion sort on ListedArrays(took only the algorithm , hand edited to handle ListArrays)*/
 	void sort(ArrayList<ArrayList<Integer>> arr){ 
