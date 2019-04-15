@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.awt.*;
 
-public class iceHockeytester {
+public class iceHockeyTester {
     @Test
     public void findPlayers0() {
         Cs iPlayersFinder = new Cs();
