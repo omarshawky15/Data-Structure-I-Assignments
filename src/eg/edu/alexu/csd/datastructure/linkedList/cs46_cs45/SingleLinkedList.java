@@ -1,6 +1,6 @@
 package eg.edu.alexu.csd.datastructure.linkedList.cs46_cs45;
 
-public class LinkedList implements ILinkedList {
+public class SingleLinkedList implements ILinkedList {
 	LinkedListNode head = new LinkedListNode(null);
 	int size = 0;
 	LinkedListNode tail = new LinkedListNode(null);
@@ -126,7 +126,7 @@ public class LinkedList implements ILinkedList {
 	public ILinkedList sublist(int fromIndex, int toIndex) {
 
 		LinkedListNode tempto = head;
-		ILinkedList list = new LinkedList();
+		ILinkedList list = new SingleLinkedList();
 		for (int i = 0; i < toIndex; i++) {
 			if (i >= fromIndex) {
 				list.add(tempto.getData());
