@@ -115,12 +115,8 @@ public class PolynomialSolver implements IPolynomialSolver {
 
 	public float evaluatePolynomial(char poly, float value) {
 		DoubleLinkedList t = null;
-		if (poly == 'A')
-			t = A;
-		else if (poly == 'B')
-			t = B;
-		else if (poly == 'C')
-			t = C;
+		t = checker(poly);
+		if(t==null)return 0;
 		float sum = 0;
 		for (int i = 0; i < t.size; i++) {
 			int j = 0;
@@ -219,7 +215,10 @@ public class PolynomialSolver implements IPolynomialSolver {
 					s1.append(coef);
 				} else {
 					if (Math.abs(coef) != 1)
-						s1.append(Math.abs(coef));
+						s1.append(coef);
+					else if(coef < 0 ) {
+						s1.append('-');
+					}
 					s1.append("x");
 					if (exp != 1)
 						s1.append("^" + exp);

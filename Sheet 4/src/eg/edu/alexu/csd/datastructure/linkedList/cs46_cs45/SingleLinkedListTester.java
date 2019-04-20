@@ -116,11 +116,7 @@ class SingleLinkedListTester {
 	@Test
 	void testsublist() {
 		SingleLinkedList test = new SingleLinkedList();
-<<<<<<< HEAD
 		ILinkedList list1 = new SingleLinkedList();
-=======
-		ILinkedList list1 = new LinkedList();
->>>>>>> 07643a162694b214739fc08153c4e1d7cbeed157
 		test.add(1);
 		test.add(2);
 		test.add(3);
