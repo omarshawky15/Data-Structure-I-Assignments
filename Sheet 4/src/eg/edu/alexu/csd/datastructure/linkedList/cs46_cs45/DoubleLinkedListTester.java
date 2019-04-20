@@ -116,7 +116,7 @@ class DoubleLinkedListTester {
 	@Test
 	void testsublist() {
 		DoubleLinkedList test = new DoubleLinkedList();
-		ILinkedList list1 = new LinkedList();
+		ILinkedList list1 = new DoubleLinkedList();
 		test.add(1);
 		test.add(2);
 		test.add(3);
