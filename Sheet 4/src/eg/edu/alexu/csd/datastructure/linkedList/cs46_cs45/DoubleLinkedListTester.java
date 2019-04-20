@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-class SingleLinkedListTester {
+class DoubleLinkedListTester {
 
 	@Test
 	void testAdd() {
