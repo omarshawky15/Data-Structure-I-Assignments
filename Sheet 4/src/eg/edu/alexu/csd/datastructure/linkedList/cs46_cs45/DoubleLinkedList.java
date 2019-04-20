@@ -80,7 +80,7 @@ public class DoubleLinkedList implements ILinkedList {
 	public ILinkedList sublist(int fromIndex, int toIndex) {
 
 		LinkedListNode tempto = head;
-		ILinkedList list = new LinkedList();
+		ILinkedList list = new DoubleLinkedList();
 		for (int i = 0; i < toIndex; i++) {
 			if (i >= fromIndex) {
 				list.add(tempto.getData());

@@ -169,8 +169,7 @@ public class PolynomialSolver implements IPolynomialSolver {
 				for (k = 0; k < r.size; k++) {
 					coefexp3 = convert(tn3);
 					if (multexp == coefexp3[1]) {
-						r.set(k, Integer.toString(multcoef + coefexp3[0]) 
-								+ "+" + Integer.toString(multexp));
+						r.set(k, Integer.toString(multcoef + coefexp3[0]) + "+" + Integer.toString(multexp));
 						flag = false;
 						break;
 					}

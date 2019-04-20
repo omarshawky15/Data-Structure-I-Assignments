@@ -5,7 +5,7 @@ public class SingleLinkedList implements ILinkedList {
 	int size = 0;
 	LinkedListNode tail = new LinkedListNode(null);
 
-	public LinkedList() {
+	public SingleLinkedList() {
 		head = null;
 		tail = null;
 		size = 0;

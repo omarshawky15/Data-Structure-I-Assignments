@@ -45,7 +45,6 @@ public class Application {
 	public static int[][] inputs(String str) {
 		int[][] arr = new int[100][2];
 		int count = 0;
-		int n1, n2;
 		for (int i = 0; i < str.length(); i++) {
 			if (str.charAt(i) == '(') {
 				int j, k;
@@ -92,7 +91,7 @@ public class Application {
 				if (c1 == 'A' || c1 == 'B' || c1 == 'C') {
 					s1.nextLine();
 					System.out.print("Insert the polynomial terms in the form:\r\n"
-							+ "(coeff1, exponent1), (coeff2, exponent2), ..\n");
+							+ "(coeff1, exponent1), (coeff2, exponent2), ..");
 					term = s1.nextLine();
 					int[][] arr = inputs(term);
 					sort(arr);
@@ -100,6 +99,7 @@ public class Application {
 
 				} else
 					break outer;
+				System.out.println();
 			} else if (n == 2) {
 				System.out.println("Insert the variable name: A, B, C or R");
 				c1 = s1.next().charAt(0);
@@ -119,6 +119,7 @@ public class Application {
 					System.out.println(term);
 				} else
 					break outer;
+				System.out.println();
 			} else if (n == 3) {
 				c1 = variable(c1, 0);
 				c2 = variable(c2, 1);
@@ -130,7 +131,6 @@ public class Application {
 						System.out.print(", ");
 				}
 				System.out.println();
-
 			} else if (n == 4) {
 				c1 = variable(c1, 0);
 				c2 = variable(c2, 1);
@@ -141,6 +141,7 @@ public class Application {
 					if (i != arr.length - 1)
 						System.out.print(", ");
 				}
+				System.out.println();
 			} else if (n == 5) {
 				c1 = variable(c1, 0);
 				c2 = variable(c2, 1);
@@ -172,6 +173,7 @@ public class Application {
 					float x = s1.nextInt();
 					System.out.println(tester.evaluatePolynomial(c1, x));
 				}
+				System.out.println();
 			} else if (n == 7) {
 				System.out.println("Insert the variable name: A, B, C or R");
 				c1 = s1.next().charAt(0);
@@ -189,6 +191,7 @@ public class Application {
 					}
 					tester.clearPolynomial(c1);
 				}
+				System.out.println();
 
 			}
 		}

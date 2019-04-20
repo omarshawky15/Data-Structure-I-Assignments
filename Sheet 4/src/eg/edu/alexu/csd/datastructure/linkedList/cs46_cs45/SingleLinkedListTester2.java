@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 
-class SingleLinkedListTester {
+class SingleLinkedListTester2 {
 
 	@Test
 	void testAdd() {
-		DoubleLinkedList test = new DoubleLinkedList();
+		SingleLinkedList test = new SingleLinkedList();
 		test.add(1);
 		test.add(2);
 		test.add(3);
@@ -28,7 +28,7 @@ class SingleLinkedListTester {
 
 	@Test
 	void testAddAtIndext() {
-		DoubleLinkedList test = new DoubleLinkedList();
+		SingleLinkedList test = new SingleLinkedList();
 		test.add(5, 1);
 		test.add(1, 2);
 		test.add(0, 3);
@@ -50,7 +50,7 @@ class SingleLinkedListTester {
 
 	@Test
 	void testclear() {
-		DoubleLinkedList test = new DoubleLinkedList();
+		SingleLinkedList test = new SingleLinkedList();
 		test.add(1);
 		test.add(2);
 		test.add(3);
@@ -63,7 +63,7 @@ class SingleLinkedListTester {
 
 	@Test
 	void testcontains() {
-		DoubleLinkedList test = new DoubleLinkedList();
+		SingleLinkedList test = new SingleLinkedList();
 		Object o = 3;
 		test.add(1);
 		test.add(2);
@@ -78,7 +78,7 @@ class SingleLinkedListTester {
 
 	@Test
 	void testremove() {
-		DoubleLinkedList test = new DoubleLinkedList();
+		SingleLinkedList test = new SingleLinkedList();
 		int sizebefore, sizeafter;
 		test.add(1);
 		test.add(2);
@@ -95,7 +95,7 @@ class SingleLinkedListTester {
 
 	@Test
 	void testsetget() {
-		DoubleLinkedList test = new DoubleLinkedList();
+		SingleLinkedList test = new SingleLinkedList();
 		test.add(1);
 		test.add(2);
 		test.add(3);
@@ -115,8 +115,8 @@ class SingleLinkedListTester {
 
 	@Test
 	void testsublist() {
-		DoubleLinkedList test = new DoubleLinkedList();
-		ILinkedList list1 = new DoubleLinkedList();
+		SingleLinkedList test = new SingleLinkedList();
+		ILinkedList list1 = new SingleLinkedList();
 		test.add(1);
 		test.add(2);
 		test.add(3);
