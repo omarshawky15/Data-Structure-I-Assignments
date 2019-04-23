@@ -14,7 +14,7 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 				return 'h';
 			}
 		}
-		// just to make the method work , no meaning for the 'n' 
+		// just to make the method work , no meaning for the 'n'
 		return 'n';
 	}
 
@@ -34,9 +34,15 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 			return false;
 	}
 
-	
+	public boolean isNum(String x) {
+		char c = x.charAt(0);
+		if ((int) c > 47 && (int) c < 58)
+			return true;
+		return false;
+	}
+
 	public String infixToPostfix(String expression) {
-		Stack st1= new Stack();
+		Stack st1 = new Stack();
 		StringBuilder postfixExpression = new StringBuilder();
 		// flag1 -> marks adding new operator to the stack with or without removing the
 		// previous one
@@ -49,7 +55,8 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 				st1.push(x);
 				counter++;
 			} else if (x == closed) {
-				if(counter == 0)throw new RuntimeException("Invalid Input: Redundant \")\" ");
+				if (counter == 0)
+					throw new RuntimeException("Invalid Input: Redundant \")\" ");
 				while (((char) st1.peek()) != open) {
 					postfixExpression.append(" ");
 					postfixExpression.append(st1.pop());
@@ -67,7 +74,7 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 					}
 				}
 				st1.push(x);
-			} else if (x != ' ' || (char) postfixExpression.charAt(postfixExpression.length()-1) != ' ')
+			} else if (x != ' ' ||(postfixExpression.length() > 0 &&  (char) postfixExpression.charAt(postfixExpression.length() - 1) != ' '))
 				postfixExpression.append(x);
 		}
 		while (!st1.isEmpty()) {
@@ -84,5 +91,31 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 		}
 		return postfixExpression.toString();
 
+	}
+
+	public int evaluate(String expression) {
+		Stack st1 = new Stack();
+		for (int i = 0; i < expression.length(); i++) {
+			String x = expression.substring(i,i+1);
+			if (x .equals( " "))
+				continue;
+			else if (isNum(x)) {
+				st1.push(Integer.parseInt(x));
+			} else if (x .equals( "*") || x .equals( "+") || x .equals( "/" )|| x .equals( "-")) {
+				int num1 =(int) st1.pop(), num2 =(int)st1.pop();
+				if (x .equals( "+"))
+					st1.push(num1 + num2);
+				else if (x .equals( "*"))
+					st1.push(num1 * num2);
+				else if (x .equals( "/"))
+					st1.push(num2 / num1);
+				else
+					st1.push(num2 - num1);
+			}
+			else throw new RuntimeException("Invalid Input");
+
+		}
+
+		return  (int)st1.pop();
 	}
 }
