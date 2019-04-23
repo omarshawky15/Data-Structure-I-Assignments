@@ -2,7 +2,7 @@ package eg.edu.alexu.csd.datastructure.stack.cs46;
 
 public class ExpressionEvaluatorMain {
 	public static void main(String[] args) {
-		String expression = "(1 + 211) * 7";
+		String expression = "";
 		int a =0;
 		ExpressionEvaluator tester = new ExpressionEvaluator();
 		expression = tester.infixToPostfix(expression);
