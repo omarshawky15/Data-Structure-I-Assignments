@@ -1,5 +1,5 @@
 package eg.edu.alexu.csd.datastructure.stack.cs46;
-pfe PFE
+
 public class ExpressionEvaluator implements IExpressionEvaluator {
 	public char test(char c) {
 		char[] lower = { '-', '+' };
@@ -35,23 +35,26 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 	}
 
 	public boolean isNum(String x) {
-		for(int i=0 ; i<x.length() ; i++) {
+		for (int i = 0; i < x.length(); i++) {
 			char c = x.charAt(i);
-			if((c == '-' || c == '+') && x.length() > 1)continue;
+			if ((c == '-' || c == '+') && x.length() > 1)
+				continue;
 			if ((int) c > 47 && (int) c < 58)
 				continue;
-			else return false;
+			else
+				return false;
 		}
-		return true ;
+		return true;
 	}
 
 	public String infixToPostfix(String expression) {
 		Stack st1 = new Stack();
 		StringBuilder PFE = new StringBuilder();
+		String n = "";
 		// flag1 -> marks adding new operator to the stack with or without removing the
 		// previous one
 		boolean flag1 = true;
-		int counter = 0; // expresses number of open parenthesis at the moment 
+		int counter = 0; // expresses number of open parenthesis at the moment
 		char open = '(', closed = ')';
 		for (int i = 0; i < expression.length(); i++) {
 			char x = expression.charAt(i);
@@ -60,7 +63,7 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 				st1.push(x);
 				counter++;
 			}
-			// if the char is a close parenthesis 
+			// if the char is a close parenthesis
 			else if (x == closed) {
 				if (counter == 0)
 					throw new RuntimeException("Invalid Input: Redundant \")\" ");
@@ -71,10 +74,10 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 				st1.pop();
 				counter--;
 			}
-			// checks if char was an operator 
+			// checks if char was an operator
 			else if (x == '*' || x == '+' || x == '/' || x == '-') {
 				while (!st1.isEmpty() && (char) st1.peek() != '(') {
-					// see which character has higher precedence 
+					// see which character has higher precedence
 					flag1 = highOrLow((char) st1.peek(), x);
 					if (flag1)
 						break;
@@ -85,19 +88,126 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 				}
 				st1.push(x);
 			}
-			// if the char is space then check if the previous was space to avoid having two spaces after each other
-			// if the char was a new space/wasn't a space then it's definitely a number/variable and will be pushed to PFE
+			// if the char is space then check if the previous was space to avoid having two
+			// spaces after each other
+			// if the char was a new space/wasn't a space then it's definitely a
+			// number/variable and will be pushed to PFE
 			else if (x != ' ' || (PFE.length() > 0 && (char) PFE.charAt(PFE.length() - 1) != ' '))
-				PFE.append(x);
+				PFE.append(n + x);
 		}
-		// add all the operator remaining in stack to the PFE except if '(' was found then there's an runtime exception
+		// add all the operator remaining in stack to the PFE except if '(' was found
+		// then there's an runtime exception
 		while (!st1.isEmpty()) {
 			if ((char) st1.peek() == '(')
 				throw new RuntimeException("Invalid Input : Redundant \"(\" ");
 			PFE.append(" ");
 			PFE.append(st1.pop());
 		}
-		//replace any two consecutive spaces with only one
+		// replace any two consecutive spaces with only one
+		for (int i = 0; i < PFE.length() - 1; i++) {
+			if (PFE.charAt(i) == ' ' && PFE.charAt(i + 1) == ' ') {
+				PFE.deleteCharAt(i);
+				i--;
+			}
+		}
+		return PFE.toString();
+
+	}
+
+	public String infixToPostfixedit(String expression) {
+		Stack st1 = new Stack();
+		StringBuilder PFE = new StringBuilder();
+		String n = "";
+		// flag1 -> marks adding new operator to the stack with or without removing the
+		// previous one
+		boolean flag1 = true;
+		int counter = 0; // expresses number of open parenthesis at the moment
+		int countern = 0;
+		String open = "(", closed = ")";
+		for (int i = 0; i < expression.length(); i++) {
+			// char x = expression.charAt(i);
+			String x = expression.substring(i, i + 1);
+			StringBuilder longIntegers = new StringBuilder();
+			if (x.equals("-") && !expression.substring(i, i + 1).equals(" ")) {
+				if (n.equals(""))
+					n = "-";
+				else
+					n = "";
+				if (expression.substring(i+1, i + 2).equals("(")) {
+					countern++;
+				}
+				continue;
+			} else {
+
+				int counter2 = 0;
+				while (counter2 + i < expression.length() && isNum(expression.substring(i + counter2, i + counter2 + 1))) {
+					longIntegers.append(expression.substring(i + counter2, i + 1 + counter2));
+					counter2++;
+				}
+				i = i + counter2;
+				if(counter2>0) {
+					i--;
+					x = longIntegers.toString();
+				}
+			}
+			
+
+			// if the char. is an open parenthesis
+			if (x.equals(open)) {
+				st1.push(x);
+				counter++;
+			}
+			// if the char is a close parenthesis
+			else if (x.equals(closed)) {
+				if (counter == 0)
+					throw new RuntimeException("Invalid Input: Redundant \")\" ");
+				while (!((String) st1.peek()).equals(open)) {
+					PFE.append(" ");
+					PFE.append(st1.pop());
+				}
+				st1.pop();
+				counter--;
+				if(countern > 0) {
+					if (n.equals(""))
+						n = "-";
+					else
+						n = "";
+					countern--;
+				}
+			}
+			// checks if char was an operator
+			else if (x.equals("*") || x .equals("+") || x.equals("/") || x.equals("-")) {
+				while (!st1.isEmpty() && !((String) st1.peek()).equals("(")) {
+					// see which character has higher precedence
+					flag1 = highOrLow(((String) st1.peek()).charAt(0), x.charAt(0));
+					if (flag1)
+						break;
+					else {
+						PFE.append(" ");
+						PFE.append(st1.pop());
+					}
+				}
+				st1.push(x);
+			}
+			// if the char is space then check if the previous was space to avoid having two
+			// spaces after each other
+			// if the char was a new space/wasn't a space then it's definitely a
+			// number/variable  and will be pushed to PFE
+			else if (!x.equals(" ") || (PFE.length() > 0 && (char) PFE.charAt(PFE.length() - 1) != ' ')) {
+				if(!x.equals(" "))PFE.append(n + x);
+				else PFE.append(x);
+				if(countern%2==0) n="";
+			}
+		}
+		// add all the operator remaining in stack to the PFE except if '(' was found
+		// then there's an runtime exception
+		while (!st1.isEmpty()) {
+			if (((String) st1.peek()).equals("("))
+				throw new RuntimeException("Invalid Input : Redundant \"(\" ");
+			PFE.append(" ");
+			PFE.append(st1.pop());
+		}
+		// replace any two consecutive spaces with only one
 		for (int i = 0; i < PFE.length() - 1; i++) {
 			if (PFE.charAt(i) == ' ' && PFE.charAt(i + 1) == ' ') {
 				PFE.deleteCharAt(i);
@@ -117,11 +227,12 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 				continue;
 			else {
 				int counter = 0;
-				while (counter+i < expression.length() && !expression.substring(i+counter, i + counter + 1).equals(" ")) {
-					longIntegers.append(expression.substring(i+counter, i +1+ counter));
+				while (counter + i < expression.length()
+						&& !expression.substring(i + counter, i + counter + 1).equals(" ")) {
+					longIntegers.append(expression.substring(i + counter, i + 1 + counter));
 					counter++;
 				}
-				i = i + counter ;
+				i = i + counter;
 			}
 			x = longIntegers.toString();
 			if (isNum(x)) {
@@ -140,7 +251,8 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 				throw new RuntimeException("Invalid Input");
 
 		}
-		if(st1.size() == 0)return 0;
+		if (st1.size() == 0)
+			return 0;
 		return (int) st1.pop();
 	}
 }
