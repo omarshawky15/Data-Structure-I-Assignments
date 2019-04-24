@@ -1,9 +1,6 @@
 package eg.edu.alexu.csd.datastructure.stack.cs46;
 
-import java.io.IOException;
 import java.util.Scanner;
-
-import javax.management.RuntimeErrorException;
 
 public class StackUI {
 	static Scanner s1 = new Scanner(System.in);

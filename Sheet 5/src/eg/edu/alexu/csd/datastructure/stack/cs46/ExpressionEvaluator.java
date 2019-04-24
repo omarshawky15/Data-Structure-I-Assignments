@@ -1,6 +1,13 @@
 package eg.edu.alexu.csd.datastructure.stack.cs46;
 
 public class ExpressionEvaluator implements IExpressionEvaluator {
+	/**
+	 * to know if character has a higher or lower precedence
+	 * 
+	 * @param c character
+	 * @return 'l' if c has lower precedence , 'h' if c has higher precedence , 'n'
+	 *         null to make the method work
+	 */
 	public char test(char c) {
 		char[] lower = { '-', '+' };
 		char[] higher = { '*', '/' };
@@ -18,11 +25,15 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 		return 'n';
 	}
 
-	/*
+	/**
 	 * 'h' ASCII number is lower that 'l' , so if c2 = 'h' , c1 = 'l' this means c2
-	 * < c1 but c2 has higher precedence than c1 so if c2 < c1 then i should return
+	 * c1 but c2 has higher precedence than c1 so if c2 less than c1 in value then i should return
 	 * true to add c2 to the stack , for all other cases returning false from this
 	 * method will result in removing c1 first then add c2
+	 * 
+	 * @param c1 the first character to compare
+	 * @param c2 the second character to compare
+	 * @return true if c2 has higher precedence than c1 , false otherwise
 	 */
 	public boolean highOrLow(char c1, char c2) {
 		c1 = test(c1);
@@ -33,6 +44,13 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 		else
 			return false;
 	}
+
+	/**
+	 * check if String is number or not
+	 * 
+	 * @param x String to be checked
+	 * @return true if x was a Fully Functional number , false otherwise
+	 */
 
 	public boolean isNum(String x) {
 		for (int i = 0; i < x.length(); i++) {
@@ -47,19 +65,62 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 		return true;
 	}
 
+	/**
+	 * check if String is Valid Alphabetic character or not
+	 * 
+	 * @param x String to be checked
+	 * @return true if x was a Valid Alphabetic character , false otherwise
+	 */
+
+	public boolean isChar(String x) {
+		for (int i = 0; i < x.length(); i++) {
+			char c = x.charAt(i);
+			if ((c == '-' || c == '+') && x.length() > 1)
+				continue;
+			if (((int) c > 64 && (int) c < 90) || ((int) c > 96 && (int) c < 123))
+				continue;
+			else
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * check if String is an operator or not or not
+	 * 
+	 * @param substring String to be checked
+	 * @return true if x wasn't an operator , false otherwise
+	 */
+	public boolean isNotOperator(String substring) {
+		String[] Operators = { "*", "-", "+", "/" };
+		for (int i = 0; i < 4; i++) {
+			if (substring.equals(Operators[i]))
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Takes a symbolic/numeric infix expression as input and converts it to postfix
+	 * notation. There is no assumption on spaces between terms or the length of the
+	 * term (e.g., two digits symbolic or numeric term)
+	 *
+	 * @param expression infix expression
+	 * @return postfix expression
+	 */
+
 	public String infixToPostfix(String expression) {
-		Stack st1 = new Stack();
+		Stack oPSt = new Stack();
 		Stack Sign = new Stack();
 		StringBuilder PFE = new StringBuilder();
 		String n = "";
 		// flag1 -> marks adding new operator to the stack with or without removing the
 		// previous one
-		boolean flag1 = true;
-		int counter = 0; // expresses number of open parenthesis at the moment
-		int countern = 0;
+		boolean flag = true;
+		int counter = 0; // expresses number of open parenthesis at the moment and if it matches the
+		// counter inside Sign Stack it means that the Sign was changed at this Counter
 		String open = "(", closed = ")";
 		for (int i = 0; i < expression.length(); i++) {
-			// char x = expression.charAt(i);
 			String x = expression.substring(i, i + 1);
 			StringBuilder longIntegers = new StringBuilder();
 			if (x.equals("-") && !expression.substring(i + 1, i + 2).equals(" ")) {
@@ -67,12 +128,14 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 					n = "-";
 				else
 					n = "";
-				Sign.push(countern);
+				Sign.push(counter);
 				continue;
 			} else {
 				int counter2 = 0;
 				while (counter2 + i < expression.length()
-						&& isNum(expression.substring(i + counter2, i + counter2 + 1))) {
+						&& (isChar(expression.substring(i + counter2, i + counter2 + 1))
+								|| isNum(expression.substring(i + counter2, i + counter2 + 1)))
+						&& isNotOperator(expression.substring(i + counter2, i + counter2 + 1))) {
 					longIntegers.append(expression.substring(i + counter2, i + 1 + counter2));
 					counter2++;
 				}
@@ -85,50 +148,46 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 
 			// if the char. is an open parenthesis
 			if (x.equals(open)) {
-				st1.push(x);
+				oPSt.push(x);
 				counter++;
-				countern++;
-				
 			}
 			// if the char is a close parenthesis
 			else if (x.equals(closed)) {
 				if (counter == 0)
 					throw new RuntimeException("Invalid Input: Redundant \")\" ");
-				while (!((String) st1.peek()).equals(open)) {
+				while (!((String) oPSt.peek()).equals(open)) {
 					PFE.append(" ");
-					PFE.append(st1.pop());
+					PFE.append(oPSt.pop());
 				}
-				st1.pop();
+				oPSt.pop();
 				counter--;
-				if (countern > 0) {
-					countern--;
-				}
 			}
 			// checks if char was an operator
 			else if (x.equals("*") || x.equals("+") || x.equals("/") || x.equals("-")) {
-				while (!st1.isEmpty() && !((String) st1.peek()).equals("(")) {
+				while (!oPSt.isEmpty() && !((String) oPSt.peek()).equals("(")) {
 					// see which character has higher precedence
-					flag1 = highOrLow(((String) st1.peek()).charAt(0), x.charAt(0));
-					if (flag1)
+					flag = highOrLow(((String) oPSt.peek()).charAt(0), x.charAt(0));
+					if (flag)
 						break;
 					else {
 						PFE.append(" ");
-						PFE.append(st1.pop());
+						PFE.append(oPSt.pop());
 					}
 				}
-				st1.push(x);
+				oPSt.push(x);
 			}
 			// if the char is space then check if the previous was space to avoid having two
 			// spaces after each other
 			// if the char was a new space/wasn't a space then it's definitely a
 			// number/variable and will be pushed to PFE
 			else if (!x.equals(" ") || (PFE.length() > 0 && (char) PFE.charAt(PFE.length() - 1) != ' ')) {
+				PFE.append(" ");
 				if (!x.equals(" "))
 					PFE.append(n + x);
 				else
-					PFE.append(x);	
+					PFE.append(x);
 			}
-			if (!Sign.isEmpty() && countern == (int)Sign.peek()) {
+			if (!Sign.isEmpty() && counter == (int) Sign.peek()) {
 				if (n.equals(""))
 					n = "-";
 				else
@@ -138,14 +197,18 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 		}
 		// add all the operator remaining in stack to the PFE except if '(' was found
 		// then there's an runtime exception
-		while (!st1.isEmpty()) {
-			if (((String) st1.peek()).equals("("))
+		while (!oPSt.isEmpty()) {
+			if (((String) oPSt.peek()).equals("("))
 				throw new RuntimeException("Invalid Input : Redundant \"(\" ");
 			PFE.append(" ");
-			PFE.append(st1.pop());
+			PFE.append(oPSt.pop());
 		}
 		// replace any two consecutive spaces with only one
-		for (int i = 0; i < PFE.length() - 1; i++) {
+		int i = 0;
+		while (PFE.charAt(i) == ' ' && i < PFE.length() - 1) {
+			PFE.deleteCharAt(i);
+		}
+		for (i = 0; i < PFE.length() - 1; i++) {
 			if (PFE.charAt(i) == ' ' && PFE.charAt(i + 1) == ' ') {
 				PFE.deleteCharAt(i);
 				i--;
@@ -155,8 +218,15 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 
 	}
 
+	/**
+	 * Evaluate a postfix numeric expression, with a single space separator
+	 *
+	 * @param expression postfix expression
+	 * @return the expression evaluated value
+	 */
+
 	public int evaluate(String expression) {
-		Stack st1 = new Stack();
+		Stack oPSt = new Stack();
 		for (int i = 0; i < expression.length(); i++) {
 			String x = expression.substring(i, i + 1);
 			StringBuilder longIntegers = new StringBuilder();
@@ -173,23 +243,23 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 			}
 			x = longIntegers.toString();
 			if (isNum(x)) {
-				st1.push(Integer.parseInt(x));
+				oPSt.push(Float.parseFloat(x));
 			} else if (x.equals("*") || x.equals("+") || x.equals("/") || x.equals("-")) {
-				int num1 = (int) st1.pop(), num2 = (int) st1.pop();
+				Float num1 = (Float) oPSt.pop(), num2 = (Float) oPSt.pop();
 				if (x.equals("+"))
-					st1.push(num1 + num2);
+					oPSt.push(num1 + num2);
 				else if (x.equals("*"))
-					st1.push(num1 * num2);
+					oPSt.push(num1 * num2);
 				else if (x.equals("/"))
-					st1.push(num2 / num1);
+					oPSt.push(num2 / num1);
 				else
-					st1.push(num2 - num1);
+					oPSt.push(num2 - num1);
 			} else
 				throw new RuntimeException("Invalid Input");
 
 		}
-		if (st1.size() == 0)
+		if (oPSt.size() == 0)
 			return 0;
-		return (int) st1.pop();
+		return Math.round((Float) oPSt.pop());
 	}
 }
