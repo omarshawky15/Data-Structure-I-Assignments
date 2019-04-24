@@ -49,73 +49,7 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 
 	public String infixToPostfix(String expression) {
 		Stack st1 = new Stack();
-		StringBuilder PFE = new StringBuilder();
-		String n = "";
-		// flag1 -> marks adding new operator to the stack with or without removing the
-		// previous one
-		boolean flag1 = true;
-		int counter = 0; // expresses number of open parenthesis at the moment
-		char open = '(', closed = ')';
-		for (int i = 0; i < expression.length(); i++) {
-			char x = expression.charAt(i);
-			// if the char. is an open parenthesis
-			if (x == open) {
-				st1.push(x);
-				counter++;
-			}
-			// if the char is a close parenthesis
-			else if (x == closed) {
-				if (counter == 0)
-					throw new RuntimeException("Invalid Input: Redundant \")\" ");
-				while (((char) st1.peek()) != open) {
-					PFE.append(" ");
-					PFE.append(st1.pop());
-				}
-				st1.pop();
-				counter--;
-			}
-			// checks if char was an operator
-			else if (x == '*' || x == '+' || x == '/' || x == '-') {
-				while (!st1.isEmpty() && (char) st1.peek() != '(') {
-					// see which character has higher precedence
-					flag1 = highOrLow((char) st1.peek(), x);
-					if (flag1)
-						break;
-					else {
-						PFE.append(" ");
-						PFE.append(st1.pop());
-					}
-				}
-				st1.push(x);
-			}
-			// if the char is space then check if the previous was space to avoid having two
-			// spaces after each other
-			// if the char was a new space/wasn't a space then it's definitely a
-			// number/variable and will be pushed to PFE
-			else if (x != ' ' || (PFE.length() > 0 && (char) PFE.charAt(PFE.length() - 1) != ' '))
-				PFE.append(n + x);
-		}
-		// add all the operator remaining in stack to the PFE except if '(' was found
-		// then there's an runtime exception
-		while (!st1.isEmpty()) {
-			if ((char) st1.peek() == '(')
-				throw new RuntimeException("Invalid Input : Redundant \"(\" ");
-			PFE.append(" ");
-			PFE.append(st1.pop());
-		}
-		// replace any two consecutive spaces with only one
-		for (int i = 0; i < PFE.length() - 1; i++) {
-			if (PFE.charAt(i) == ' ' && PFE.charAt(i + 1) == ' ') {
-				PFE.deleteCharAt(i);
-				i--;
-			}
-		}
-		return PFE.toString();
-
-	}
-
-	public String infixToPostfixedit(String expression) {
-		Stack st1 = new Stack();
+		Stack Sign = new Stack();
 		StringBuilder PFE = new StringBuilder();
 		String n = "";
 		// flag1 -> marks adding new operator to the stack with or without removing the
@@ -128,34 +62,33 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 			// char x = expression.charAt(i);
 			String x = expression.substring(i, i + 1);
 			StringBuilder longIntegers = new StringBuilder();
-			if (x.equals("-") && !expression.substring(i, i + 1).equals(" ")) {
+			if (x.equals("-") && !expression.substring(i + 1, i + 2).equals(" ")) {
 				if (n.equals(""))
 					n = "-";
 				else
 					n = "";
-				if (expression.substring(i+1, i + 2).equals("(")) {
-					countern++;
-				}
+				Sign.push(countern);
 				continue;
 			} else {
-
 				int counter2 = 0;
-				while (counter2 + i < expression.length() && isNum(expression.substring(i + counter2, i + counter2 + 1))) {
+				while (counter2 + i < expression.length()
+						&& isNum(expression.substring(i + counter2, i + counter2 + 1))) {
 					longIntegers.append(expression.substring(i + counter2, i + 1 + counter2));
 					counter2++;
 				}
 				i = i + counter2;
-				if(counter2>0) {
+				if (counter2 > 0) {
 					i--;
 					x = longIntegers.toString();
 				}
 			}
-			
 
 			// if the char. is an open parenthesis
 			if (x.equals(open)) {
 				st1.push(x);
 				counter++;
+				countern++;
+				
 			}
 			// if the char is a close parenthesis
 			else if (x.equals(closed)) {
@@ -167,16 +100,12 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 				}
 				st1.pop();
 				counter--;
-				if(countern > 0) {
-					if (n.equals(""))
-						n = "-";
-					else
-						n = "";
+				if (countern > 0) {
 					countern--;
 				}
 			}
 			// checks if char was an operator
-			else if (x.equals("*") || x .equals("+") || x.equals("/") || x.equals("-")) {
+			else if (x.equals("*") || x.equals("+") || x.equals("/") || x.equals("-")) {
 				while (!st1.isEmpty() && !((String) st1.peek()).equals("(")) {
 					// see which character has higher precedence
 					flag1 = highOrLow(((String) st1.peek()).charAt(0), x.charAt(0));
@@ -192,11 +121,19 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 			// if the char is space then check if the previous was space to avoid having two
 			// spaces after each other
 			// if the char was a new space/wasn't a space then it's definitely a
-			// number/variable  and will be pushed to PFE
+			// number/variable and will be pushed to PFE
 			else if (!x.equals(" ") || (PFE.length() > 0 && (char) PFE.charAt(PFE.length() - 1) != ' ')) {
-				if(!x.equals(" "))PFE.append(n + x);
-				else PFE.append(x);
-				if(countern%2==0) n="";
+				if (!x.equals(" "))
+					PFE.append(n + x);
+				else
+					PFE.append(x);	
+			}
+			if (!Sign.isEmpty() && countern == (int)Sign.peek()) {
+				if (n.equals(""))
+					n = "-";
+				else
+					n = "";
+				Sign.pop();
 			}
 		}
 		// add all the operator remaining in stack to the PFE except if '(' was found
