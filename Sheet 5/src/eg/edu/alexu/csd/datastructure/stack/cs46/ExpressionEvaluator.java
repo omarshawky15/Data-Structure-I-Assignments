@@ -260,6 +260,6 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 		}
 		if (oPSt.size() == 0)
 			return 0;
-		return Math.round((Float) oPSt.pop());
+		return  (int)Math.round((Float) oPSt.pop());
 	}
 }
