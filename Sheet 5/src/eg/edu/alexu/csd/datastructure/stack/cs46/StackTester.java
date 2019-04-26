@@ -1,5 +1,7 @@
 package eg.edu.alexu.csd.datastructure.stack.cs46;
 
+import java.util.EmptyStackException;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -7,7 +9,7 @@ public class StackTester {
 	
 
 	@Test
-	public void testpeek() {
+	public void testpeek() throws EmptyStackException{
 		Stack tester = new Stack();
 		tester.push(5);
 		tester.push(3);
@@ -20,7 +22,7 @@ public class StackTester {
 	}
 
 	@Test
-	public void testpoppush() {
+	public void testpoppush() throws EmptyStackException{
 		Stack tester = new Stack();
 		int size;
 		tester.push(5);

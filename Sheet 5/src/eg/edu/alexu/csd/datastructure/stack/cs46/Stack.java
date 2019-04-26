@@ -2,9 +2,22 @@ package eg.edu.alexu.csd.datastructure.stack.cs46;
 
 import java.util.EmptyStackException;
 
-import eg.edu.alexu.csd.datastructure.linkedList.cs46_cs45.*;
-
 public class Stack implements IStack {
+	public class LinkedListNode{
+		public LinkedListNode next ; 
+		public LinkedListNode previous ; 
+		public Object data ;
+		public LinkedListNode (Object d) {
+			data = d ;
+			next = null ;
+		}
+		public LinkedListNode getNext () {
+			return next ;
+		}
+		public Object getData() {
+			return data ;
+		}
+	}
 	LinkedListNode top = null;
 	int size = 0;
 	/**
@@ -12,7 +25,7 @@ public class Stack implements IStack {
 	*
 	* @return top of stack element, or through exception if empty
 	*/
-	public Object pop() {
+	public Object pop() throws EmptyStackException{
 		if (size == 0)
 			throw new EmptyStackException();
 		Object o = top.data;
@@ -26,7 +39,7 @@ public class Stack implements IStack {
 	* @return top of stack element, or through exception if empty
 	*/
 
-	public Object peek() {
+	public Object peek() throws EmptyStackException{
 		if (size == 0)
 			throw new EmptyStackException();
 		return top.data;
