@@ -2,7 +2,7 @@ package eg.edu.alexu.csd.datastructure.stack.cs46;
 
 import java.util.Scanner;
 
-public class Application {
+public class ExpressionEvaluatorUI {
 
 	public static void main(String[] args) {
 		String expression = new String(), n = new String();

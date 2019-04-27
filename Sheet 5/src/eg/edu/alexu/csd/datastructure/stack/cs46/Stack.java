@@ -5,17 +5,10 @@ import java.util.EmptyStackException;
 public class Stack implements IStack {
 	public class LinkedListNode{
 		public LinkedListNode next ; 
-		public LinkedListNode previous ; 
 		public Object data ;
 		public LinkedListNode (Object d) {
 			data = d ;
 			next = null ;
-		}
-		public LinkedListNode getNext () {
-			return next ;
-		}
-		public Object getData() {
-			return data ;
 		}
 	}
 	LinkedListNode top = null;
@@ -25,7 +18,7 @@ public class Stack implements IStack {
 	*
 	* @return top of stack element, or through exception if empty
 	*/
-	public Object pop() throws EmptyStackException{
+	public Object pop(){
 		if (size == 0)
 			throw new EmptyStackException();
 		Object o = top.data;
@@ -39,7 +32,7 @@ public class Stack implements IStack {
 	* @return top of stack element, or through exception if empty
 	*/
 
-	public Object peek() throws EmptyStackException{
+	public Object peek(){
 		if (size == 0)
 			throw new EmptyStackException();
 		return top.data;

@@ -27,9 +27,9 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 
 	/**
 	 * 'h' ASCII number is lower that 'l' , so if c2 = 'h' , c1 = 'l' this means c2
-	 * c1 but c2 has higher precedence than c1 so if c2 less than c1 in value then i should return
-	 * true to add c2 to the stack , for all other cases returning false from this
-	 * method will result in removing c1 first then add c2
+	 * c1 but c2 has higher precedence than c1 so if c2 less than c1 in value then i
+	 * should return true to add c2 to the stack , for all other cases returning
+	 * false from this method will result in removing c1 first then add c2
 	 * 
 	 * @param c1 the first character to compare
 	 * @param c2 the second character to compare
@@ -114,9 +114,12 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 		Stack Sign = new Stack();
 		StringBuilder PFE = new StringBuilder();
 		String n = "";
-		// flag1 -> marks adding new operator to the stack with or without removing the
+		// flag -> marks adding new operator to the stack with or without removing the
 		// previous one
 		boolean flag = true;
+		//negflag -> if (true) previous character was operator thus next(-) is negative sign
+		//			 if (false) previous character was operand thus next (-) is operator
+		boolean negflag = true; 
 		int counter = 0; // expresses number of open parenthesis at the moment and if it matches the
 		// counter inside Sign Stack it means that the Sign was changed at this Counter
 		String open = "(", closed = ")";
@@ -124,12 +127,14 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 			String x = expression.substring(i, i + 1);
 			StringBuilder longIntegers = new StringBuilder();
 			if (x.equals("-") && !expression.substring(i + 1, i + 2).equals(" ")) {
+				if(negflag) {
 				if (n.equals(""))
 					n = "-";
 				else
 					n = "";
 				Sign.push(counter);
 				continue;
+				}
 			} else {
 				int counter2 = 0;
 				while (counter2 + i < expression.length()
@@ -145,6 +150,9 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 					x = longIntegers.toString();
 				}
 			}
+			// end of taking the expression
+
+			// testing the expression
 
 			// if the char. is an open parenthesis
 			if (x.equals(open)) {
@@ -164,6 +172,7 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 			}
 			// checks if char was an operator
 			else if (x.equals("*") || x.equals("+") || x.equals("/") || x.equals("-")) {
+				negflag = true;
 				while (!oPSt.isEmpty() && !((String) oPSt.peek()).equals("(")) {
 					// see which character has higher precedence
 					flag = highOrLow(((String) oPSt.peek()).charAt(0), x.charAt(0));
@@ -182,12 +191,14 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 			// number/variable and will be pushed to PFE
 			else if (!x.equals(" ") || (PFE.length() > 0 && (char) PFE.charAt(PFE.length() - 1) != ' ')) {
 				PFE.append(" ");
-				if (!x.equals(" "))
+				if (!x.equals(" ")) {
+					negflag = false;
 					PFE.append(n + x);
-				else
+			}else 
 					PFE.append(x);
+				
 			}
-			if (!Sign.isEmpty() && counter == (int) Sign.peek()) {
+			while (!Sign.isEmpty() && counter == (int) Sign.peek()) {
 				if (n.equals(""))
 					n = "-";
 				else
@@ -260,6 +271,7 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 		}
 		if (oPSt.size() == 0)
 			return 0;
-		return Math.round((Float) oPSt.pop());
+		int x = (int) Math.round((Float) oPSt.pop());
+		return x;
 	}
 }

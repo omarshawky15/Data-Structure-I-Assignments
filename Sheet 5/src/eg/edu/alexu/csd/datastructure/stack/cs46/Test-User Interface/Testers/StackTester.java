@@ -47,5 +47,9 @@ public class StackTester {
 	public void testisEmpty() {
 		Stack tester = new Stack();
 		Assert.assertTrue(tester.isEmpty());
+		tester.push(5);
+		tester.pop();
+		Assert.assertTrue(tester.isEmpty());
+
 	}
 }
