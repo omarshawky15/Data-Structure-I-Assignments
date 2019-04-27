@@ -271,11 +271,6 @@ public class ExpressionEvaluator implements IExpressionEvaluator {
 		}
 		if (oPSt.size() == 0)
 			return 0;
-<<<<<<< HEAD
-		int x = (int) Math.round((Float) oPSt.pop());
-		return x;
-=======
 		return  (int)Math.round((Float) oPSt.pop());
->>>>>>> e7bbca31232c23d9182a307164dec3030f245e0c
 	}
 }
