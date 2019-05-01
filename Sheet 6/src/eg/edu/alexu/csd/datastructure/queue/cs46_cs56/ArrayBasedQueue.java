@@ -1,17 +1,17 @@
-package eg.edu.alexu.csd.datastructure.queue.cs46;
+package eg.edu.alexu.csd.datastructure.queue.cs46_cs56;
 
 import java.util.NoSuchElementException;
 
 public class ArrayBasedQueue implements IQueue, IArrayBased {
-	int n, f = 0, r = 1;
-	Object[] arr = null;
+	public int n, f = -1, r = 0 , size =0;
+	public Object[] arr = null;
 /**
  * casting
  * @param n size of Queue
  */
 	ArrayBasedQueue(int n) {
-		this.arr = new Object[n+1];
-		this.n = n+1;
+		this.arr = new Object[n];
+		this.n = n;
 	}
 	/**
 	 * casting in n = null 
@@ -26,9 +26,10 @@ public class ArrayBasedQueue implements IQueue, IArrayBased {
 	 * @param item object which will be inserted
 	 */
 	public void enqueue(Object item) {
-		if (size() != n-1){
+		if (size() != n){
 			arr[r] = item;
 			r=(r+1)%n;
+			size++;
 		}
 		else throw new IllegalStateException("Queue is full"); 
 	}
@@ -42,6 +43,7 @@ public class ArrayBasedQueue implements IQueue, IArrayBased {
 			f= (f+1)%n;
 			Object temp = arr[f] ;
 			arr[f] = null ;
+			size-- ;
 			return temp ;
 		}
 	}
@@ -51,12 +53,12 @@ public class ArrayBasedQueue implements IQueue, IArrayBased {
 	*/
 
 	public boolean isEmpty() {
-		return r==f+1 ;
+		return size() == 0 ;
 	}
 	/**
 	* @Returns the number of elements in the queue
 	*/
 	public int size() {
-		return (n-f+(r-1))%n ;
+		return size ;
 	}
 }

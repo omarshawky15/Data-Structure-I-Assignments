@@ -1,4 +1,4 @@
-package eg.edu.alexu.csd.datastructure.queue.cs46;
+package eg.edu.alexu.csd.datastructure.queue.cs46_cs56;
 
 import java.util.NoSuchElementException;
 
