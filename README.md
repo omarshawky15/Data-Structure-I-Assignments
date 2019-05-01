@@ -7,4 +7,4 @@ Includes implentation of some basic data structres as:
 
 In addition to some applications on these data structures:
 * Polynomial solver using linked lists
-* Graph traversal with DFS and BFS
+* Infix to postfix evaluator using stacks
